@@ -1,3 +1,6 @@
+using EFCore.Context;
+using Microsoft.EntityFrameworkCore;
+
 namespace UserManagement
 {
 	public class Program
@@ -8,6 +11,11 @@ namespace UserManagement
 
 			// Add services to the container.
 			builder.Services.AddControllersWithViews();
+			builder.Services.AddDbContext<ApplicationDbContext>(options =>
+			{
+				options.UseSqlServer(builder.Configuration
+					.GetConnectionString("defaultConnection"));
+			});
 
 			var app = builder.Build();
 
