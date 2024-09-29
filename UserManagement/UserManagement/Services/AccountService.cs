@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using EFCore.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
 using UserManagement.Models.ViewModels;
 
 namespace UserManagement.Services
@@ -45,9 +44,7 @@ namespace UserManagement.Services
 			var appUser = await userManager.FindByEmailAsync(user.Email);
 			if (appUser is null || !await userManager.CheckPasswordAsync(appUser, user.Password))
 				return new AuthResult { Error = "Invalid email or password. Please try again." };
-			List<Claim> claims = new List<Claim>();
-			claims.Add(new Claim(ClaimTypes.Email, user.Email));
-			await signInManager.SignInWithClaimsAsync(appUser, user.RememberMe, claims);
+			await signInManager.SignInAsync(appUser, user.RememberMe);
 			return new AuthResult { Success = true };
 		}
 
