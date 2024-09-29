@@ -27,10 +27,38 @@ namespace UserManagement.Controllers
 			var result = await accountService.RegisterAsync(user);
 			if (!result.Success)
 			{
-				ModelState.AddModelError("", result.Error);
+				ModelState.AddModelError("", result.Error!);
 				return View("Register", user);
 			}
 			return Json("test");
+		}
+
+		[HttpGet]
+		public IActionResult Login()
+		{
+			return View("Login");
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Login(LoginVM user)
+		{
+			if (!ModelState.IsValid)
+				return View("Login", user);
+			var result = await accountService.LoginAsync(user);
+			if (!result.Success)
+			{
+				var errorMsg = result.Error!;
+				ModelState.AddModelError("", errorMsg);
+				return View("Login", user);
+			}
+			return Json("Success");
+		}
+
+		[HttpGet]
+		public IActionResult Logout()
+		{
+			accountService.Logout();
+			return RedirectToAction("Login");
 		}
 	}
 }

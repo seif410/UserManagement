@@ -7,5 +7,7 @@ namespace UserManagement.Services
 		public Task<AuthResult> RegisterAsync(RegisterVM user);
 
 		public Task<AuthResult> LoginAsync(LoginVM user);
+
+		public void Logout();
 	}
 }

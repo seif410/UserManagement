@@ -8,8 +8,7 @@ namespace UserManagement.Mapping
 	{
 		public Mapper()
 		{
-			CreateMap<RegisterVM, ApplicationUser>().ReverseMap()
-				.ForMember(c => c.ConfirmPassword, act => act.Ignore());
+			CreateMap<RegisterVM, ApplicationUser>().ReverseMap();
 		}
 	}
 }

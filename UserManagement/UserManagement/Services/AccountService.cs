@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EFCore.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using UserManagement.Models.ViewModels;
 
 namespace UserManagement.Services
@@ -8,12 +9,15 @@ namespace UserManagement.Services
 	public class AccountService : IAccountService
 	{
 		private readonly UserManager<ApplicationUser> userManager;
+		private readonly SignInManager<ApplicationUser> signInManager;
 		private readonly IMapper mapper;
 
-		public AccountService(UserManager<ApplicationUser> _userManager, IMapper _mapper)
+		public AccountService(UserManager<ApplicationUser> _userManager, IMapper _mapper
+			, SignInManager<ApplicationUser> _signInManager)
 		{
 			userManager = _userManager;
 			mapper = _mapper;
+			signInManager = _signInManager;
 		}
 
 		public async Task<AuthResult> RegisterAsync(RegisterVM user)
@@ -36,9 +40,20 @@ namespace UserManagement.Services
 			return new AuthResult { Success = true };
 		}
 
-		public Task<AuthResult> LoginAsync(LoginVM user)
+		public async Task<AuthResult> LoginAsync(LoginVM user)
 		{
-			throw new NotImplementedException();
+			var appUser = await userManager.FindByEmailAsync(user.Email);
+			if (appUser is null || !await userManager.CheckPasswordAsync(appUser, user.Password))
+				return new AuthResult { Error = "Invalid email or password. Please try again." };
+			List<Claim> claims = new List<Claim>();
+			claims.Add(new Claim(ClaimTypes.Email, user.Email));
+			await signInManager.SignInWithClaimsAsync(appUser, user.RememberMe, claims);
+			return new AuthResult { Success = true };
+		}
+
+		public async void Logout()
+		{
+			await signInManager.SignOutAsync();
 		}
 	}
 }
