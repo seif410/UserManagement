@@ -1,5 +1,8 @@
 using EFCore.Context;
+using EFCore.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using UserManagement.Services;
 
 namespace UserManagement
 {
@@ -16,6 +19,10 @@ namespace UserManagement
 				options.UseSqlServer(builder.Configuration
 					.GetConnectionString("defaultConnection"));
 			});
+			builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+				.AddEntityFrameworkStores<ApplicationDbContext>();
+			builder.Services.AddAutoMapper(typeof(Program));
+			builder.Services.AddScoped<IAccountService, AccountService>();
 
 			var app = builder.Build();
 
