@@ -7,28 +7,28 @@ namespace UserManagement.Services
 {
 	public class AccountService : IAccountService
 	{
-		private readonly UserManager<ApplicationUser> userManager;
-		private readonly SignInManager<ApplicationUser> signInManager;
-		private readonly IMapper mapper;
+		private readonly UserManager<ApplicationUser> _userManager;
+		private readonly SignInManager<ApplicationUser> _signInManager;
+		private readonly IMapper _mapper;
 
-		public AccountService(UserManager<ApplicationUser> _userManager, IMapper _mapper
-			, SignInManager<ApplicationUser> _signInManager)
+		public AccountService(UserManager<ApplicationUser> userManager, IMapper mapper
+			, SignInManager<ApplicationUser> signInManager)
 		{
-			userManager = _userManager;
-			mapper = _mapper;
-			signInManager = _signInManager;
+			_userManager = userManager;
+			_mapper = mapper;
+			_signInManager = signInManager;
 		}
 
 		public async Task<AuthResult> RegisterAsync(RegisterVM user)
 		{
-			if (await userManager.FindByEmailAsync(user.Email) is not null)
+			if (await _userManager.FindByEmailAsync(user.Email) is not null)
 				return new AuthResult
 				{
 					Error = "This email address is already registered. " +
 					"Please user a different email or log in"
 				};
-			var appUser = mapper.Map<ApplicationUser>(user);
-			var result = await userManager.CreateAsync(appUser, user.Password);
+			var appUser = _mapper.Map<ApplicationUser>(user);
+			var result = await _userManager.CreateAsync(appUser, user.Password);
 			if (!result.Succeeded)
 			{
 				var errorMsg = string.Empty;
@@ -41,16 +41,16 @@ namespace UserManagement.Services
 
 		public async Task<AuthResult> LoginAsync(LoginVM user)
 		{
-			var appUser = await userManager.FindByEmailAsync(user.Email);
-			if (appUser is null || !await userManager.CheckPasswordAsync(appUser, user.Password))
+			var appUser = await _userManager.FindByEmailAsync(user.Email);
+			if (appUser is null || !await _userManager.CheckPasswordAsync(appUser, user.Password))
 				return new AuthResult { Error = "Invalid email or password. Please try again." };
-			await signInManager.SignInAsync(appUser, user.RememberMe);
+			await _signInManager.SignInAsync(appUser, user.RememberMe);
 			return new AuthResult { Success = true };
 		}
 
 		public async void Logout()
 		{
-			await signInManager.SignOutAsync();
+			await _signInManager.SignOutAsync();
 		}
 	}
 }

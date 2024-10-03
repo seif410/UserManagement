@@ -51,7 +51,7 @@ namespace UserManagement.Controllers
 				ModelState.AddModelError("", errorMsg);
 				return View("Login", user);
 			}
-			return Json("Success");
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpGet]

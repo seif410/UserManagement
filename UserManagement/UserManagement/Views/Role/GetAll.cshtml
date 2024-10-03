@@ -1,0 +1,32 @@
+﻿@model IEnumerable<IdentityRole>
+
+@{
+	ViewData["Title"] = "All Roles";
+}
+
+<h1>All Roles</h1>
+
+<hr />
+<table class="table table-hover table-borderless">
+	<tr>
+		<th>ID</th>
+		<th>Name</th>
+	</tr>
+	@foreach (var item in Model)
+	{
+		<tr>
+			<td>@item.Id</td>
+			<td>@item.Name</td>
+		</tr>
+	}
+</table>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

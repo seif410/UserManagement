@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EFCore.Entities;
+using Microsoft.AspNetCore.Identity;
 using UserManagement.Models.ViewModels;
 
 namespace UserManagement.Mapping
@@ -9,6 +10,7 @@ namespace UserManagement.Mapping
 		public Mapper()
 		{
 			CreateMap<RegisterVM, ApplicationUser>().ReverseMap();
+			CreateMap<RoleVM, IdentityRole>().ReverseMap();
 		}
 	}
 }

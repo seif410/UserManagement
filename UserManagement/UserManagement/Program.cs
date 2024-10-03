@@ -23,6 +23,7 @@ namespace UserManagement
 				.AddEntityFrameworkStores<ApplicationDbContext>();
 			builder.Services.AddAutoMapper(typeof(Program));
 			builder.Services.AddScoped<IAccountService, AccountService>();
+			builder.Services.AddScoped<IRoleService, RoleService>();
 
 			var app = builder.Build();
 
