@@ -36,6 +36,15 @@ namespace UserManagement.Services
 					errorMsg += $"{error.Description}. \n";
 				return new AuthResult { Error = errorMsg };
 			}
+
+			try
+			{
+				await _userManager.AddToRoleAsync(appUser, "User");
+			}
+			catch
+			{
+				return new AuthResult { Error = "This role does not exist" };
+			}
 			return new AuthResult { Success = true };
 		}
 

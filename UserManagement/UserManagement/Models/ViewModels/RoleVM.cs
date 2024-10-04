@@ -4,7 +4,8 @@ namespace UserManagement.Models.ViewModels
 {
 	public class RoleVM
 	{
-		[Required(ErrorMessage = "*")]
+		[Required]
+		[Display(Name = "Role Name")]
 		public string Name { get; set; }
 	}
 }

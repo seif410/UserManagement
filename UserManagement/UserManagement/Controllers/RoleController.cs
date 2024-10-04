@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserManagement.Models.ViewModels;
 using UserManagement.Services;
 
 namespace UserManagement.Controllers
 {
+	[Authorize]
 	public class RoleController : Controller
 	{
 		private readonly IRoleService _roleService;
@@ -34,7 +36,7 @@ namespace UserManagement.Controllers
 				ModelState.AddModelError("", result.Error);
 				return View("AddRole", role);
 			}
-			return Json("Created Successfully");
+			return RedirectToAction("GetAll");
 		}
 	}
 }
