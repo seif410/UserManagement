@@ -34,7 +34,6 @@ yarn-error.log*
 
 # Front-end dependencies (if using npm or yarn)
 node_modules/
-dist/
 
 # Database and EF Core migration files
 *.mdf
