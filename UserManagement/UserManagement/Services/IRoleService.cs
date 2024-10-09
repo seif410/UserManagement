@@ -3,10 +3,10 @@ using UserManagement.Models.ViewModels;
 
 namespace UserManagement.Services
 {
-	public interface IRoleService
-	{
-		public IEnumerable<IdentityRole> GetRoles();
+    public interface IRoleService
+    {
+        public IEnumerable<IdentityRole> GetRoles();
 
-		public Task<AuthResult> AddRoleAsync(RoleVM role);
-	}
+        public Task<AuthResult> AddRoleAsync(RoleVM role);
+    }
 }
