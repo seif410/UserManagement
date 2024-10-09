@@ -1,4 +1,4 @@
-﻿@model IEnumerable<UserRolesVM>
+﻿@model IEnumerable<UserRolesViewModel>
 @{
     ViewData["Title"] = "Users Roles";
 }
@@ -22,7 +22,7 @@
                 <td>@user.UserName</td>
                 <td> @string.Join(", ", user.Roles)</td>
                 <td>
-                    <a class="btn btn-primary" asp-action="Manage">Manage Roles</a>
+                    <a class="btn btn-primary" asp-action="Manage" asp-route-userId=@user.Id>Manage Roles</a>
                 </td>
             </tr>
 

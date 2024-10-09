@@ -1,0 +1,27 @@
+﻿@model SelectedRolesViewModel
+@{
+    ViewData["Title"] = "Manage";
+}
+
+<h1>@Model.UserName</h1>
+<hr />
+<table class="table table-hover table-borderless">
+    <tr>
+        <th>Role Name</th>
+        <th>Assigned</th>
+    </tr>
+    @foreach (var role in Model.Roles)
+    {
+        <tr>
+            <td>@role.Name</td>
+            <td>
+                <input type="hidden" asp-for="@role.Name" />
+                <input asp-for="@role.IsSelected" class="form-check-input" />
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+

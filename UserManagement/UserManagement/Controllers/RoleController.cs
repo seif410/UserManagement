@@ -26,7 +26,7 @@ namespace UserManagement.Controllers
         public IActionResult AddRole() { return View(); }
 
         [HttpPost]
-        public async Task<IActionResult> AddRole(RoleVM role)
+        public async Task<IActionResult> AddRole(RoleViewModel role)
         {
             if (!ModelState.IsValid)
                 return View("AddRole", role);
@@ -36,7 +36,7 @@ namespace UserManagement.Controllers
                 ModelState.AddModelError("", result.Error);
                 return View("AddRole", role);
             }
-            return RedirectToAction("GetAll");
+            return RedirectToAction("Index");
         }
     }
 }

@@ -19,7 +19,7 @@ namespace UserManagement.Services
             _signInManager = signInManager;
         }
 
-        public async Task<AuthResult> RegisterAsync(RegisterVM user)
+        public async Task<AuthResult> RegisterAsync(RegisterViewModel user)
         {
             if (await _userManager.FindByEmailAsync(user.Email) is not null)
                 return new AuthResult
@@ -41,7 +41,7 @@ namespace UserManagement.Services
                 new AuthResult { Error = "User role not found!" };
         }
 
-        public async Task<AuthResult> LoginAsync(LoginVM user)
+        public async Task<AuthResult> LoginAsync(LoginViewModel user)
         {
             var appUser = await _userManager.FindByEmailAsync(user.Email);
             if (appUser is null || !await _userManager.CheckPasswordAsync(appUser, user.Password))

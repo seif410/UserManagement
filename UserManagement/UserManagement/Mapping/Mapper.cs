@@ -9,8 +9,8 @@ namespace UserManagement.Mapping
 	{
 		public Mapper()
 		{
-			CreateMap<RegisterVM, ApplicationUser>().ReverseMap();
-			CreateMap<RoleVM, IdentityRole>().ReverseMap();
+			CreateMap<RegisterViewModel, ApplicationUser>().ReverseMap();
+			CreateMap<RoleViewModel, IdentityRole>().ReverseMap();
 		}
 	}
 }

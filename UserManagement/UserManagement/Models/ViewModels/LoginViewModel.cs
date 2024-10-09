@@ -2,7 +2,7 @@
 
 namespace UserManagement.Models.ViewModels
 {
-	public class LoginVM
+	public class LoginViewModel
 	{
 		[Required(ErrorMessage = "*")]
 		[RegularExpression("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"

@@ -2,7 +2,7 @@
 
 namespace UserManagement.Models.ViewModels
 {
-	public class RegisterVM
+	public class RegisterViewModel
 	{
 		[Required]
 		[Length(2, 25, ErrorMessage = "Username length should be between 2 and 25")]

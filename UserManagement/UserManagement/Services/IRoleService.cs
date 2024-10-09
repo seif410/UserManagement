@@ -7,6 +7,6 @@ namespace UserManagement.Services
     {
         public IEnumerable<IdentityRole> GetRoles();
 
-        public Task<AuthResult> AddRoleAsync(RoleVM role);
+        public Task<AuthResult> AddRoleAsync(RoleViewModel role);
     }
 }

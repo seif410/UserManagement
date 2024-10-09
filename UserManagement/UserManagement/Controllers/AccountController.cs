@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserManagement.Models.ViewModels;
 using UserManagement.Services;
 
 namespace UserManagement.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly IAccountService accountService;
@@ -20,7 +22,7 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterVM user)
+        public async Task<IActionResult> Register(RegisterViewModel user)
         {
             if (!ModelState.IsValid)
                 return View("Register", user);
@@ -40,7 +42,7 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM user)
+        public async Task<IActionResult> Login(LoginViewModel user)
         {
             if (!ModelState.IsValid)
                 return View("Login", user);

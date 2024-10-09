@@ -21,7 +21,7 @@ namespace UserManagement.Services
         {
             return _roleManager.Roles;
         }
-        public async Task<AuthResult> AddRoleAsync(RoleVM role)
+        public async Task<AuthResult> AddRoleAsync(RoleViewModel role)
         {
             if (await _roleManager.FindByNameAsync(role.Name!) is not null)
                 return new AuthResult { Success = false, Error = "This role already exists." };
