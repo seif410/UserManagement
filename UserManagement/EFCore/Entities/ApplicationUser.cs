@@ -2,7 +2,8 @@
 
 namespace EFCore.Entities
 {
-	public class ApplicationUser : IdentityUser
-	{
-	}
+    public class ApplicationUser : IdentityUser
+    {
+        public byte[] ProfilePicture { get; set; }
+    }
 }
