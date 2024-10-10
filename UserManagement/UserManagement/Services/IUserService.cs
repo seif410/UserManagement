@@ -7,5 +7,7 @@ namespace UserManagement.Services
         public Task<IEnumerable<UserRolesViewModel>> GetUsersRolesAsync();
 
         public Task<SelectedRolesViewModel> GetUserRolesAsync(string userId);
+
+        public Task SaveRoleChanges(SelectedRolesViewModel selectedRoles);
     }
 }

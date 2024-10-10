@@ -44,20 +44,43 @@ namespace UserManagement.Services
 
             foreach (var role in roles)
             {
-                userRoles.Add(new RoleViewModel
+                if (role.Name != "User")
                 {
-                    Name = role.Name,
-                    IsSelected = await _userManager.IsInRoleAsync(user, role.Name)
-                });
+                    userRoles.Add(new RoleViewModel
+                    {
+                        Name = role.Name,
+                        IsSelected = await _userManager.IsInRoleAsync(user, role.Name)
+                    });
+                }
             }
 
-            var selUserRoles = new SelectedRolesViewModel()
+            return new SelectedRolesViewModel()
             {
                 UserName = user.UserName,
                 Roles = userRoles
-            };
+            }; ;
+        }
 
-            return selUserRoles;
+        public async Task SaveRoleChanges(SelectedRolesViewModel selectedRoles)
+        {
+            var user = await _userManager.FindByNameAsync(selectedRoles.UserName);
+            var roles = await _roleManager.Roles.ToListAsync();
+
+            foreach (var role in roles)
+            {
+                if (role.Name == "User")
+                    continue;
+
+                var selected = selectedRoles.Roles
+                    .FirstOrDefault(r => r.Name == role.Name)!.IsSelected;
+                if (selected &&
+                    !await _userManager.IsInRoleAsync(user, role.Name))
+                    await _userManager.AddToRoleAsync(user, role.Name);
+
+                if (!selected &&
+                    await _userManager.IsInRoleAsync(user, role.Name))
+                    await _userManager.RemoveFromRoleAsync(user, role.Name);
+            }
         }
     }
 }

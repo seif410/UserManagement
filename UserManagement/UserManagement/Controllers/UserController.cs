@@ -32,5 +32,12 @@ namespace UserManagement.Controllers
             return View(userRoles);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Manage(SelectedRolesViewModel selectedRoles)
+        {
+            await _userService.SaveRoleChanges(selectedRoles);
+            return RedirectToAction("Index");
+        }
+
     }
 }

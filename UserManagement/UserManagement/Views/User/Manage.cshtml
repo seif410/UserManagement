@@ -5,23 +5,27 @@
 
 <h1>@Model.UserName</h1>
 <hr />
-<table class="table table-hover table-borderless">
-    <tr>
-        <th>Role Name</th>
-        <th>Assigned</th>
-    </tr>
-    @foreach (var role in Model.Roles)
-    {
+<form asp-action="Manage" method="post">
+    <input type="hidden" asp-for="UserName" />
+    <table class="table table-hover table-borderless">
         <tr>
-            <td>@role.Name</td>
-            <td>
-                <input type="hidden" asp-for="@role.Name" />
-                <input asp-for="@role.IsSelected" class="form-check-input" />
-            </td>
+            <th>Role Name</th>
+            <th>Assigned</th>
         </tr>
-    }
-
-</table>
+        @for (int i = 0; i < Model.Roles.Count; i++)
+        {
+            <tr>
+                <td>@Model.Roles[i].Name</td>
+                <td>
+                    <input type="hidden" asp-for="Roles[i].Name" />
+                    <input asp-for="Roles[i].IsSelected" class="form-check-input" />
+                </td>
+            </tr>
+        }
+    </table>
+    <input type="submit" value="Save" class="btn btn-primary" />
+    <a class="btn btn-primary" asp-action="Index">Cancel</a>
+</form>
 
 
 
