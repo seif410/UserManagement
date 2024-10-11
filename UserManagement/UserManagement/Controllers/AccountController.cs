@@ -22,10 +22,20 @@ namespace UserManagement.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel user)
+        public async Task<IActionResult> Register(RegisterViewModel user, IFormFile ProfilePicture)
         {
-            if (!ModelState.IsValid)
+            ModelState.Remove("ProfilePicture");
+            if (!ModelState.IsValid || ProfilePicture == null)
+            {
+                ModelState.AddModelError("ProfilePicture", "Profile picture field is required");
                 return View("Register", user);
+            }
+            var imgFile = Request.Form.Files.FirstOrDefault();
+            using (var datastream = new MemoryStream())
+            {
+                await imgFile.CopyToAsync(datastream);
+                user.ProfilePicture = datastream.ToArray();
+            }
             var result = await accountService.RegisterAsync(user);
             if (!result.Success)
             {

@@ -10,13 +10,16 @@ namespace UserManagement.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
+        private readonly IRoleService _roleService;
 
         public AccountService(UserManager<ApplicationUser> userManager, IMapper mapper
-            , SignInManager<ApplicationUser> signInManager)
+            , SignInManager<ApplicationUser> signInManager
+            , IRoleService roleService)
         {
             _userManager = userManager;
             _mapper = mapper;
             _signInManager = signInManager;
+            _roleService = roleService;
         }
 
         public async Task<AuthResult> RegisterAsync(RegisterViewModel user)
@@ -36,9 +39,19 @@ namespace UserManagement.Services
                     errorMsg += $"{error.Description}. \n";
                 return new AuthResult { Error = errorMsg };
             }
-            var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
-            return roleResult.Succeeded ? new AuthResult { Success = true } :
-                new AuthResult { Error = "User role not found!" };
+            try
+            {
+                var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+            }
+            catch (Exception ex)
+            {
+                await _roleService.AddRoleAsync(new RoleViewModel
+                {
+                    Name = "User"
+                });
+                var roleResult = await _userManager.AddToRoleAsync(appUser, "User");
+            }
+            return new AuthResult { Success = true };
         }
 
         public async Task<AuthResult> LoginAsync(LoginViewModel user)
