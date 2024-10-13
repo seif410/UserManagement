@@ -9,12 +9,15 @@ namespace UserManagement.Services
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UserService(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IEnumerable<UserRolesViewModel>> GetUsersRolesAsync()
@@ -53,12 +56,12 @@ namespace UserManagement.Services
                     });
                 }
             }
-
+            await _signInManager.RefreshSignInAsync(user);
             return new SelectedRolesViewModel()
             {
                 UserName = user.UserName,
                 Roles = userRoles
-            }; ;
+            };
         }
 
         public async Task SaveRoleChanges(SelectedRolesViewModel selectedRoles)

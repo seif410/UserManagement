@@ -94,7 +94,7 @@ namespace UserManagement.Controllers
                 ModelState.AddModelError("", result.Error);
                 return View("Manage", reqUser);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction();
         }
     }
 }
