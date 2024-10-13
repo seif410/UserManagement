@@ -10,6 +10,7 @@ namespace UserManagement.Mapping
 		public Mapper()
 		{
 			CreateMap<RegisterViewModel, ApplicationUser>().ReverseMap();
+			CreateMap<AccountManageViewModel, ApplicationUser>().ReverseMap();
 			CreateMap<RoleViewModel, IdentityRole>().ReverseMap();
 		}
 	}

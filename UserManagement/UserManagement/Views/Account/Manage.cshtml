@@ -1,0 +1,56 @@
+﻿@model AccountManageViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+<h1>Manage your account</h1>
+<hr />
+<form method="post" asp-action="Manage" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" readonly />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-2">
+                <input type="submit" class="btn btn-primary" value="Save" />
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group d-flex flex-column align-items-center">
+                <label asp-for="ProfilePicture!" class="w-100"></label>
+                <img id="PP" class="profilePic" alt="profile" src="data:image/*;base64,@(Convert.ToBase64String(Model.ProfilePicture!))" />
+                <div class="mt-1">
+                    <input type="file"
+                           class="form-control"
+                           accept="image/*"
+                           asp-for="ProfilePicture!"
+                           onchange="document.getElementById('PP').src=window.URL.createObjectURL(this.files[0])" />
+                    <span asp-validation-for="ProfilePicture!" for="customFile" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
