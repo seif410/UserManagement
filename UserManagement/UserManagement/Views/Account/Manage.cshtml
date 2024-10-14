@@ -7,7 +7,10 @@
 <form method="post" asp-action="Manage" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-4">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (ViewData.ModelState.ErrorCount > 1)
+            {
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            }
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" />
@@ -37,19 +40,35 @@
             </div>
         </div>
 
+
         <div class="col-md-3">
             <div class="form-group d-flex flex-column align-items-center">
                 <label asp-for="ProfilePicture" class="w-100"></label>
                 <img id="PP" class="profilePic" alt="profile" src="data:image/*;base64,@(Convert.ToBase64String(Model.ProfilePicture))" />
                 <div class="mt-1">
                     <input type="file"
+                           data-val="false"
                            class="form-control"
                            accept="image/*"
                            asp-for="ProfilePicture"
                            onchange="document.getElementById('PP').src=window.URL.createObjectURL(this.files[0])" />
-                    <span asp-validation-for="ProfilePicture" for="customFile" class="text-danger"></span>
                 </div>
             </div>
         </div>
     </div>
+    @if (@ViewBag.Success is not null)
+    {
+        <div class="alert alert-success alert-dismissible fade show
+               col-md-7 mt-2 align-items-center d-flex flex-column" role="alert">
+            @ViewBag.Success
+            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                    aria-label="Close"></button>
+        </div>
+    }
 </form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -9,6 +9,7 @@ namespace UserManagement.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
+        private static string Success = null;
         private readonly IAccountService _accountService;
 
         public AccountController(IAccountService accountService)
@@ -72,6 +73,7 @@ namespace UserManagement.Controllers
         public async Task<IActionResult> Manage()
         {
             var user = await _accountService.GetUser(User);
+            ViewBag.Success = Success;
             return View(user);
         }
 
@@ -94,6 +96,7 @@ namespace UserManagement.Controllers
                 ModelState.AddModelError("", result.Error);
                 return View("Manage", reqUser);
             }
+            Success = "Profile data updated successfully.";
             return RedirectToAction();
         }
     }

@@ -24,6 +24,5 @@ namespace UserManagement.Models.ViewModels
 
         [Display(Name = "Profile Picture")]
         public byte[] ProfilePicture { get; set; }
-
     }
 }
